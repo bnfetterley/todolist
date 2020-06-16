@@ -1,26 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TodoList from './TodoList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    text: '',
+    items: [],
+  };
+
+  handleItemSubmit = (event) => {
+    event.preventDefault();
+    this.setState({
+      items: [...this.state.items, this.state.text],
+      text: '',
+    });
+    console.log('submitted', this.state.items);
+  };
+
+  handleOnChange = (event) => {
+    console.log(event.target.name, event.target.value);
+    this.setState({
+      [event.target.name]: [event.target.value],
+    });
+  };
+
+  render() {
+    console.log(this.state.text);
+    return (
+      <div>
+        <TodoList
+          handleOnChange={this.handleOnChange}
+          handleItemSubmit={this.handleItemSubmit}
+          text={this.props.text}
+        ></TodoList>
+      </div>
+    );
+  }
 }
 
 export default App;
